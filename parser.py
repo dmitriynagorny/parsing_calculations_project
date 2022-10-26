@@ -8,6 +8,16 @@ import lxml
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger('cian')
 
+start_link = 'https://www.cian.ru/cat.php?deal_type=sale&engine_version=2&offer_type=flat&region=1&room'
+
+
+# Links
+def create_link(link, rooms_start=1, rooms_end=2):
+    links = []
+    for add_link in range(rooms_start, rooms_end+1, 1):
+        links.append(f'{link}{add_link}=1&p=')
+    return links
+
 
 class Parser:
 
@@ -207,13 +217,8 @@ class Parser:
         pass
 
 
-page_1 = 'https://www.cian.ru/cat.php?deal_type=sale&engine_version=2&offer_type=flat&region=1&room1=1&p='
-page_2 = 'https://www.cian.ru/cat.php?deal_type=sale&engine_version=2&offer_type=flat&region=1&room2=1&p='
-page_3 = 'https://www.cian.ru/cat.php?deal_type=sale&engine_version=2&offer_type=flat&region=1&room3=1&p='
-page_4 = 'https://www.cian.ru/cat.php?deal_type=sale&engine_version=2&offer_type=flat&region=1&room4=1&p='
-pages = [page_1, page_2, page_3, page_4]
-
 if __name__ == '__main__':
+    pages = create_link(start_link, 1, 4)
     parser_urls = Parser()
-    for room in range(1):
+    for room in range(len(pages)):
         parser_urls.run(1, pages[room], (room + 1))
